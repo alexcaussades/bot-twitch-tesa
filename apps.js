@@ -1,8 +1,6 @@
 const tmi = require("tmi.js");
 const authtwitch = require("./twitch.json");
 const fs = require("fs")
-const ms = require("ms")
-const delay = ms => new Promise(res => setTimeout(res, ms));
 const sqlite3 = require("sqlite3").verbose();
 const pdo = new sqlite3.Database("bdd.db3", sqlite3.OPEN_READWRITE, (err) => {
   if (err) {
@@ -48,7 +46,9 @@ client.on("message", (channel, tags, message, self) => {
 
   if (message === "!test")
   {
-    client.say(channel, `Hello @${tags.username}`);
+    setTimeout(() => {
+      client.say(channel, `Hello @${tags.username}`)
+    }, 2000)
   }
 });
 
