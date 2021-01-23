@@ -1,5 +1,8 @@
 const tmi = require("tmi.js");
 const authtwitch = require("./twitch.json");
+const fs = require("fs")
+const ms = require("ms")
+const delay = ms => new Promise(res => setTimeout(res, ms));
 const sqlite3 = require("sqlite3").verbose();
 const pdo = new sqlite3.Database("bdd.db3", sqlite3.OPEN_READWRITE, (err) => {
   if (err) {
@@ -29,8 +32,11 @@ pdo.run("CREATE TABLE IF NOT EXISTS  wivers (id INTEGER PRIMARY KEY, username TE
 pdo.run("CREATE TABLE IF NOT EXISTS  message (id INTEGER PRIMARY KEY, username TEXT VARCHAR(255) NOT NULL, id_users TEXT VARCHAR(255) NOT NULL, message TEXT NOT NULL, subcriber TEXT VARCHAR(255) NOT NULL, channels TEXT VARCHAR(255) NOT NULL )");
 
 client.on("message", (channel, tags, message, self) => {
-  pdo.run(`INSERT INTO message(username, id_users, message, subcriber, channels) VALUES(?,?,?,?,?)`, [tags.username, tags["user-id"], message, tags.subscriber, channel])
-  //console.log(tags)
+  if (tags["username"] != "mytesabot")
+  {
+    pdo.run(`INSERT INTO message(username, id_users, message, subcriber, channels) VALUES(?,?,?,?,?)`, [tags.username, tags["user-id"], message, tags.subscriber, channel])
+  }
+  //console.log(tags["username"])
   
   if (self) return;
   if (message.toLowerCase() === "!hello") {
@@ -39,11 +45,16 @@ client.on("message", (channel, tags, message, self) => {
     clientInformation.search_id(client, channel, tags, message, self)
     pdo.run(`INSERT INTO wivers(username, id_users, subcriber, channels) VALUES(?,?,?,?)`, [tags.username, tags["user-id"], tags.subscriber, channel])
   }
+
+  if (message === "!test")
+  {
+    client.say(channel, `Hello @${tags.username}`);
+  }
 });
 
 client.on("subscription", function (channel, username, method, message, userstate) {
   // TODO: verificartion de la commande
-   client.say(channel, + "Merci "+ userstate["login"] + " Pour ton "+ userstate["msg-id"] + ", " + userstate["msg-param-sub-plan-name"])
+  client.say(channel, + "Merci "+ userstate["login"] + " Pour ton "+ userstate["msg-id"] + ", " + userstate["msg-param-sub-plan-name"])  
 });
 
 client.on("resub", function (channel, username, method, message, userstate) {
