@@ -61,8 +61,8 @@ const args = message.slice(1).split(' ');
 const command = args.shift().toLowerCase();
 
 if(command === 'metar') {
-  console.log(args)
-  
+  const metar = require("./ivao/metar")
+  metar.run(client, channel, tags, message, self, args)
 }
 });
 
