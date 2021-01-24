@@ -53,15 +53,18 @@ client.on("message", (channel, tags, message, self) => {
     }, 2000)
   }
 
-  if (message.toLowerCase() === "!metar")
-  {
-    var string = message.split(" "); 
-    console.log(string); 
-    
-  }
- 
-});
+if(self || !message.startsWith('!')) {
+  return;
+}
 
+const args = message.slice(1).split(' ');
+const command = args.shift().toLowerCase();
+
+if(command === 'metar') {
+  console.log(args)
+  
+}
+});
 
 client.on("subscription", function (channel, username, method, message, userstate) {
   // TODO: verificartion de la commande
