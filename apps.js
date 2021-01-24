@@ -64,6 +64,11 @@ if(command === 'metar') {
   const metar = require("./ivao/metar")
   metar.run(client, channel, tags, message, self, args)
 }
+
+if(command === 'taf') {
+  const taf = require("./ivao/taf")
+  taf.run(client, channel, tags, message, self, args)
+}
 });
 
 client.on("subscription", function (channel, username, method, message, userstate) {
