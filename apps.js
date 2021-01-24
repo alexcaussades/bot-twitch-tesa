@@ -17,10 +17,10 @@ const client = new tmi.Client({
     secure: true,
   },
   identity: {
-    username: "hellojesuisla",
+    username: authtwitch.identity.data.name,
     password: authtwitch.data.auth.bot.client_id,
   },
-  channels: ["alexcaussades", "hellstrif"],
+  channels: [authtwitch.data.channels.channels, authtwitch.data.channels.channels2],
 });
 
 

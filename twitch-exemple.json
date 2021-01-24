@@ -1,0 +1,35 @@
+{
+    "data": {
+      "auth": {
+        "client_id": "",
+        "RefreshToken": "",
+        "AccessToken": " ",
+        "bearer": " ",
+        "bot": {
+          "accessToken": " ",
+          "client_id": "",
+          "RefreshToken": ""
+        }
+      },
+      "url": {
+        "apiv5": "application/vnd.twitchtv.v5+json",
+        "channelsquery": "https://api.twitch.tv/helix/search/channels?query=",
+        "follower": "https://api.twitch.tv/helix/users/follows?to_id=",
+        "video_debut": "https://api.twitch.tv/kraken/channels/",
+        "video_fin": "/videos",
+        "broadcaster": "https://api.twitch.tv/helix/channels?broadcaster_id=",
+        "streams": "https://api.twitch.tv/kraken/streams/",
+        "getstream": "https://api.twitch.tv/helix/streams"
+      },
+      "channels": {
+          "channels": ""
+      },
+
+      "identity": {
+        "data": {
+          "name": ""
+        }
+      }
+    }
+  }
+  
