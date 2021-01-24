@@ -15,6 +15,7 @@ $ git clone https://github.com/alexcaussades/bot-twitch-tesa.git
 
 ## creat file 
 ```
+$ cd bot-twitch-tesa
 $ touch bdd.db3
 ```
 
@@ -27,14 +28,14 @@ visit this url to be able to fill in the elements below [token generator](https:
 ```json
 "data": {
       "auth": {
-        "client_id": "", // add client_id
-        "RefreshToken": "", // add RefreshToken
-        "AccessToken": " ", // add AccessToken
-        "bearer": " ", // add bearer (bearer: XXXXXXXXXXXXXXXXX)
+        "client_id": "",
+        "RefreshToken": "",
+        "AccessToken": " ",
+        "bearer": " ",
         "bot": {
-          "accessToken": " ",// add client_id
-          "client_id": "", // add AccessToken
-          "RefreshToken": "" // add AccessToken
+          "accessToken": " ",
+          "client_id": "",
+          "RefreshToken": ""
         }
       },
 
@@ -43,12 +44,12 @@ visit this url to be able to fill in the elements below [token generator](https:
 
 ```json
 "channels": {
-          "channels": "" // add name channels (ex: zerator)
+          "channels": ""
       },
 
       "identity": {
         "data": {
-          "name": "" // add name bot (ex: mybot)
+          "name": ""
         }
       }
 ```
