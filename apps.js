@@ -53,15 +53,11 @@ client.on("message", (channel, tags, message, self) => {
     }, 2000)
   }
 
-  if (message === "!metar")
+  if (message.toLowerCase() === "!metar")
   {
-    function splitStr(message) { 
-      
-      // Function to split string 
-      var string = str.split(" "); 
-        
-      console.log(string); 
-  } 
+    var string = message.split(" "); 
+    console.log(string); 
+    
   }
  
 });
