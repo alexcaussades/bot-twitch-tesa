@@ -1,6 +1,7 @@
 {
     "data": {
       "metar": "http://wx.ivao.aero/metar.php?id=",
+      "taf": "http://wx.ivao.aero/taf.php?id=",
       "dataatc": "https://alexcaussades.com/api-ivao/atc.php?icao=",
       "datapilot": "https://alexcaussades.com/api-ivao/pilot.php?callsign=",
       "dataairport": "https://alexcaussades.com/api-ivao/airport.php?icao=",
