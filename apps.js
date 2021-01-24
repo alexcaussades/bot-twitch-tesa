@@ -24,7 +24,9 @@ const client = new tmi.Client({
 });
 
 
+
 client.connect().catch(console.error);
+
 
 pdo.run("CREATE TABLE IF NOT EXISTS  wivers (id INTEGER PRIMARY KEY, username TEXT VARCHAR(255) NOT NULL, id_users TEXT VARCHAR(255) NOT NULL, subcriber TEXT VARCHAR(255) NOT NULL, channels TEXT VARCHAR(255) NOT NULL )");
 pdo.run("CREATE TABLE IF NOT EXISTS  message (id INTEGER PRIMARY KEY, username TEXT VARCHAR(255) NOT NULL, id_users TEXT VARCHAR(255) NOT NULL, message TEXT NOT NULL, subcriber TEXT VARCHAR(255) NOT NULL, channels TEXT VARCHAR(255) NOT NULL )");
@@ -50,6 +52,18 @@ client.on("message", (channel, tags, message, self) => {
       client.say(channel, `Hello @${tags.username}`)
     }, 2000)
   }
+
+if(self || !message.startsWith('!')) {
+  return;
+}
+
+const args = message.slice(1).split(' ');
+const command = args.shift().toLowerCase();
+
+if(command === 'metar') {
+  const metar = require("./ivao/metar")
+  metar.run(client, channel, tags, message, self, args)
+}
 });
 
 client.on("subscription", function (channel, username, method, message, userstate) {
