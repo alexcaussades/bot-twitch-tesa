@@ -71,14 +71,18 @@ if(command === 'taf') {
 }
 });
 
-client.on("subscription", function (channel, username, method, message, userstate) {
+client.on("subscription", function (channel, username, method, message, userstate, methods ) {
   // TODO: verificartion de la commande
+  console.log(userstate)
   client.say(channel, + "Merci "+ userstate["login"] + " Pour ton "+ userstate["msg-id"] + ", " + userstate["msg-param-sub-plan-name"])  
 });
 
-client.on("resub", function (channel, username, method, message, userstate) {
+client.on("resub", function (channel, username, method, message, userstate, methods ) {
+  console.log(userstate)
   client.say(channel, + "Merci "+ userstate["login"] + " Pour ton "+ userstate["msg-id"] + " Avec " + userstate["msg-param-cumulative-months"] + " mois " + ", " + userstate["msg-param-sub-plan-name"])
 });
+
+
 
 // client.on("whisper", function (channel, username, method, message, userstate) {
 //   console.log(username)
