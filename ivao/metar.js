@@ -1,5 +1,5 @@
 const fetch = require("node-fetch")
-const resquest = require("request")
+const request = require("request")
 module.exports.run = (client, channel, tags, message, self, args) => {
     const configivao = require("./api.json")
     // fetch(configivao.data.metar+args,{
@@ -8,14 +8,8 @@ module.exports.run = (client, channel, tags, message, self, args) => {
     //     console.log(body.body)
     // })
 
-    request(sr, function (error, response, body) {
-        let test = new Discord.MessageEmbed()
-          .setColor("#8a2be2")
-          //.setTitle('metar')
-          .setAuthor(body)
-          .setTimestamp()
-          .setFooter("T.E.S.A");
-        message.channel.send(test);
+    request(configivao.data.metar+args, function (error, response, body) {
+       console.log(body)
       });
     
 }
