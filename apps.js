@@ -23,8 +23,8 @@ const client = new tmi.Client({
   channels: ["alexcaussades", "hellstrif"],
 });
 
-// recherche de code 
-client.on('message', onMessageHandler);
+
+
 client.connect().catch(console.error);
 
 
@@ -53,22 +53,19 @@ client.on("message", (channel, tags, message, self) => {
     }, 2000)
   }
 
+  if (message === "!metar")
+  {
+    function splitStr(message) { 
+      
+      // Function to split string 
+      var string = str.split(" "); 
+        
+      console.log(string); 
+  } 
+  }
  
 });
 
-function onMessageHandler (target, context, msg, self) {
-
-  const commandName = msg.trim();
-
-  if (commandName === "!metar")
-  {
-    client.say(channel, + "Hy")
-    const splitURL = msg.trim();
-    const metar = require("./ivao/metar")
-    console.log(splitURL)
-    //metar.run(client, channel, tags, message, self)
-  }
-}
 
 client.on("subscription", function (channel, username, method, message, userstate) {
   // TODO: verificartion de la commande
