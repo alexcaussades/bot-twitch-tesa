@@ -27,16 +27,24 @@ const client = new tmi.Client({
 
 client.connect().catch(console.error);
 
-
+/** Creat database  */
 pdo.run("CREATE TABLE IF NOT EXISTS  wivers (id INTEGER PRIMARY KEY, username TEXT VARCHAR(255) NOT NULL, id_users TEXT VARCHAR(255) NOT NULL, subcriber TEXT VARCHAR(255) NOT NULL, channels TEXT VARCHAR(255) NOT NULL )");
 pdo.run("CREATE TABLE IF NOT EXISTS  message (id INTEGER PRIMARY KEY, username TEXT VARCHAR(255) NOT NULL, id_users TEXT VARCHAR(255) NOT NULL, message TEXT NOT NULL, subcriber TEXT VARCHAR(255) NOT NULL, channels TEXT VARCHAR(255) NOT NULL )");
+pdo.run("CREATE TABLE IF NOT EXISTS  viewersDays(id INTEGER PRIMARY KEY, username TEXT VARCHAR(255) NOT NULL, id_users TEXT VARCHAR(255) NOT NULL)");
 
 client.on("message", (channel, tags, message, self) => {
   if (tags["username"] != "mytesabot")
   {
     pdo.run(`INSERT INTO message(username, id_users, message, subcriber, channels) VALUES(?,?,?,?,?)`, [tags.username, tags["user-id"], message, tags.subscriber, channel])
+    const userid = tags["user-id"]
+    const search = pdo.get('SELECT * from viewersDays WEHERE id_users = '+userid)
+
+    if(!search){
+      pdo.run(`INSERT INTO viewersDays(username, id_users, channels) VALUES(?,?,?,?,?)`, [tags.username, tags["user-id"], channel])
+      console.log('tout vas bien ' + tags.username, tags["user-id"], channel)
+    }
   }
-  //console.log(tags["username"])
+ 
   
   if (self) return;
   if (message.toLowerCase() === "!hello") {
