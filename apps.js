@@ -6,7 +6,7 @@ const pdo = new sqlite3.Database("bdd.db3", sqlite3.OPEN_READWRITE, (err) => {
   if (err) {
     console.error(err.message);
   }
-  console.log('Connected to the ocs_athlete database.');
+  console.log('Connected to the database.');
 });
 
 
@@ -27,6 +27,12 @@ const client = new tmi.Client({
 
 client.connect().catch(console.error);
 
+// pour suprimer la table 
+pdo.run("DROP TABLE viewersDays", function(error){
+  if(error){
+    console.log(error.message)
+  }
+})
 /** Creat database  */
 pdo.run("CREATE TABLE IF NOT EXISTS  wivers (id INTEGER PRIMARY KEY, username TEXT VARCHAR(255) NOT NULL, id_users TEXT VARCHAR(255) NOT NULL, subcriber TEXT VARCHAR(255) NOT NULL, channels TEXT VARCHAR(255) NOT NULL )");
 pdo.run("CREATE TABLE IF NOT EXISTS  message (id INTEGER PRIMARY KEY, username TEXT VARCHAR(255) NOT NULL, id_users TEXT VARCHAR(255) NOT NULL, message TEXT NOT NULL, subcriber TEXT VARCHAR(255) NOT NULL, channels TEXT VARCHAR(255) NOT NULL )");
