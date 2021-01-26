@@ -37,12 +37,15 @@ client.on("message", (channel, tags, message, self) => {
   {
     pdo.run(`INSERT INTO message(username, id_users, message, subcriber, channels) VALUES(?,?,?,?,?)`, [tags.username, tags["user-id"], message, tags.subscriber, channel])
     const userid = tags["user-id"]
-    const search = pdo.run(`SELECT * from viewersDays WHERE id_users = `+userid)
+    const search =  pdo.get(`SELECT * FROM viewersDays WHERE id_users = ?`, [userid], (function(error, row) {
+      if(row){
+        
+      }else{
+        pdo.run(`INSERT INTO viewersDays(username, id_users) VALUES(?,?)`, [tags.username, tags["user-id"]])
+        console.log('tout vas bien ' + tags.username, tags["user-id"], channel)
+      }
+    }));
     
-    if(search != true){
-      pdo.run(`INSERT INTO viewersDays(username, id_users, channels) VALUES(?,?,?)`, [tags.username, tags["user-id"], channel])
-      console.log('tout vas bien ' + tags.username, tags["user-id"], channel)
-    }
   }
  
   
