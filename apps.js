@@ -34,11 +34,6 @@ pdo.run("DROP TABLE viewersDays", function (error) {
  }
 });
 
-// pdo.run("DROP TABLE onlive", function (error) {
-//  if (error) {
-//   console.log(error.message);
-//  }
-// });
 /** Creat database  */
 pdo.run(
  "CREATE TABLE IF NOT EXISTS  message (id INTEGER PRIMARY KEY, username TEXT VARCHAR(255) NOT NULL, id_users TEXT VARCHAR(255) NOT NULL, message TEXT NOT NULL, subcriber TEXT VARCHAR(255) NOT NULL, channels TEXT VARCHAR(255) NOT NULL )"
@@ -76,7 +71,7 @@ client.on("message", (channel, tags, message, self) => {
  if (self) return;
  if (message.toLowerCase() === "!hello") {
   const clientInformation = require("./twitch_modules/user_id");
-  /** TODO: refaire la function avec tags["users-id"] */
+ 
   clientInformation.search_id(client, channel, tags, message, self);
   pdo.run(
    `INSERT INTO wivers(username, id_users, subcriber, channels) VALUES(?,?,?,?)`,
@@ -95,7 +90,7 @@ client.on("message", (channel, tags, message, self) => {
   live.onLive(client, channel, tags, message, self);
  }
  
- if (message === "!add"){
+ if (message === "!functionSpecialAdminSystemeNeTochePasACeciMerci"){
   pdo.run( `INSERT INTO onlive(channels, status) VALUES(?,?)`,[authtwitch.data.channels.channels, 0]);
   pdo.run( `INSERT INTO onlive(channels, status) VALUES(?,?)`,[authtwitch.data.channels.channels2, 0]);
   pdo.run( `INSERT INTO onlive(channels, status) VALUES(?,?)`,[authtwitch.data.channels.channels3, 0]);
@@ -124,15 +119,7 @@ client.on(
  function (channel, username, method, message, userstate, methods) {
   // TODO: verificartion de la commande
   console.log(userstate);
-  client.say(
-   channel,
-   +"Merci " +
-    userstate["login"] +
-    " Pour ton " +
-    userstate["msg-id"] +
-    ", " +
-    userstate["msg-param-sub-plan-name"]
-  );
+  client.say(channel, +"Merci " + userstate["login"] + " Pour ton " + userstate["msg-id"] +  ", " +  userstate["msg-param-sub-plan-name"]);
  }
 );
 
@@ -155,6 +142,7 @@ client.on(
  }
 );
 
+
 const element = [
  authtwitch.data.channels.channels,
  authtwitch.data.channels.channels2,
@@ -167,7 +155,9 @@ setInterval(() => {
   const onlive = require("./twitch_modules/on_live");
   onlive.onLive(sr, pdo);
  }
-}, 10000);
+}, 60000);
+
+
 
 // client.on("whisper", function (channel, username, method, message, userstate) {
 //   console.log(username)

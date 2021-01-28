@@ -26,6 +26,7 @@ module.exports.onLive = (args, pdo) => {
                  if (row) {
                     if(row.status != element.is_live){
                         pdo.get('UPDATE onlive SET status = ? WHERE channels = ?', [element.is_live, args])
+                        //TODO add webhook for discord
                     }
                 }
             
