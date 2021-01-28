@@ -21,9 +21,25 @@ module.exports.onLive = (args, pdo) => {
         if (element.is_live === true) {
           if (element.display_name === args) {
             const id = element.id;
-            console.log(id)
             //pdo.run( `INSERT INTO onlive(channels, status) VALUES(?,?)`,[args, element.is_live]);
+            const search = pdo.get(`SELECT * FROM onlive WHERE channels = ?`,[args], function (error, row) {
+                 if (row) {
+                    if(row.status != element.is_live){
+                        pdo.get('UPDATE onlive SET status = ? WHERE channels = ?', [element.is_live, args])
+                    }
+                }
             
-      }
-    }};
-})};
+            })
+                }
+            }else{
+                const search = pdo.get(`SELECT * FROM onlive WHERE channels = ?`,[args], function (error, row) {
+                    if (row) {
+                        if(row.status != element.is_live){
+                            pdo.get('UPDATE onlive SET status = ? WHERE channels = ?', [element.is_live, args])
+                            }
+                        }
+                })
+            }
+        }
+        })
+}
