@@ -20,13 +20,11 @@ const client = new tmi.Client({
     username: authtwitch.identity.data.name,
     password: authtwitch.data.auth.bot.client_id,
   },
-  channels: [authtwitch.data.channels.channels, authtwitch.data.channels.channels2],
+  channels: [authtwitch.data.channels.channels, authtwitch.data.channels.channels2, authtwitch.data.channels.channels3],
 });
 
-
-
 client.connect().catch(console.error);
-
+console.log(authtwitch.data.channels)
 // pour suprimer la table 
 pdo.run("DROP TABLE viewersDays", function(error){
   if(error){
@@ -34,20 +32,20 @@ pdo.run("DROP TABLE viewersDays", function(error){
   }
 })
 /** Creat database  */
-pdo.run("CREATE TABLE IF NOT EXISTS  wivers (id INTEGER PRIMARY KEY, username TEXT VARCHAR(255) NOT NULL, id_users TEXT VARCHAR(255) NOT NULL, subcriber TEXT VARCHAR(255) NOT NULL, channels TEXT VARCHAR(255) NOT NULL )");
 pdo.run("CREATE TABLE IF NOT EXISTS  message (id INTEGER PRIMARY KEY, username TEXT VARCHAR(255) NOT NULL, id_users TEXT VARCHAR(255) NOT NULL, message TEXT NOT NULL, subcriber TEXT VARCHAR(255) NOT NULL, channels TEXT VARCHAR(255) NOT NULL )");
-pdo.run("CREATE TABLE IF NOT EXISTS  viewersDays(id INTEGER PRIMARY KEY, username TEXT VARCHAR(255) NOT NULL, id_users TEXT VARCHAR(255) NOT NULL channels TEXT VARCHAR(255) NOT NULL)");
+pdo.run("CREATE TABLE IF NOT EXISTS  viewersDays(id INTEGER PRIMARY KEY, username TEXT VARCHAR(255) NOT NULL, id_users TEXT VARCHAR(255) NOT NULL, channels TEXT VARCHAR(255) NOT NULL)");
 
 client.on("message", (channel, tags, message, self) => {
   if (tags["username"] != "mytesabot")
   {
     pdo.run(`INSERT INTO message(username, id_users, message, subcriber, channels) VALUES(?,?,?,?,?)`, [tags.username, tags["user-id"], message, tags.subscriber, channel])
     const userid = tags["user-id"]
+    //console.log(tags)
     const search =  pdo.get(`SELECT * FROM viewersDays WHERE id_users = ?`, [userid], (function(error, row) {
       if(row){
         
       }else{
-        pdo.run(`INSERT INTO viewersDays(username, id_users, channels) VALUES(?,?,?)`, [tags.username, tags["user-id"]], channel)
+        pdo.run(`INSERT INTO viewersDays(username, id_users, channels) VALUES(?,?,?)`, [tags.username, tags["user-id"], channel])
         console.log('tout vas bien ' + tags.username, tags["user-id"], channel)
       }
     }));
@@ -68,6 +66,24 @@ client.on("message", (channel, tags, message, self) => {
     setTimeout(() => {
       client.say(channel, `Hello @${tags.username}`)
     }, 2000)
+  }
+  const element = [authtwitch.data.channels.channels, authtwitch.data.channels.channels2, authtwitch.data.channels.channels3]
+  console.log(element.length)
+
+  setTimeout(() => {
+    
+    for (let i = 0; i < element.length; i++) {
+      const sr = element[i]
+      console.log(sr)
+      const onlive = require("./twitch_modules/on_live")
+      onlive.onLive(client, channel, tags, message, self, sr)  
+    }
+  }, 60000)
+
+  if(message === "!test2")
+  {
+    const live = require("./twitch_modules/on_live")
+    live.onLive(client, channel, tags, message, self)
   }
 
 if(self || !message.startsWith('!')) {
