@@ -1,8 +1,11 @@
 const authtwitch = require("../twitch.json");
-const debug = require("./debug.json");
+//const debug = require("./debug.json");
+const { Webhook, MessageBuilder } = require("discord-webhook-node");
 
-module.exports.onLive = (client, channel, tags, message, self, args) => {
-  const username = tags.username;
+module.exports.onLive = (args, pdo) => {
+  const hook = new Webhook(
+    "https://discord.com/api/webhooks/804312053044871209/AflBOSo-h095rdrqfKTRfkJmnFzjBriNiF45UPCFWWL4BWoYOEhmBmBf7-LoXgQJEr3p"
+  );
   const fetch = require("node-fetch");
   fetch(authtwitch.data.url.channelsquery + args, {
     method: "GET",
@@ -18,11 +21,9 @@ module.exports.onLive = (client, channel, tags, message, self, args) => {
         if (element.is_live === true) {
           if (element.display_name === args) {
             const id = element.id;
-            // Todo: mettre en place en webhook discord ! 
-            //https://discord.com/api/webhooks/804312053044871209/AflBOSo-h095rdrqfKTRfkJmnFzjBriNiF45UPCFWWL4BWoYOEhmBmBf7-LoXgQJEr3p
+            console.log(id)
+            //pdo.run( `INSERT INTO onlive(channels, status) VALUES(?,?)`,[args, element.is_live]);
             
-          }
-        }
       }
-    });
-};
+    }};
+})};
