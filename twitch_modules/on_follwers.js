@@ -1,10 +1,11 @@
 const authtwitch = require("../twitch.json");
 const debug = require("./debug.json");
 const fetch = require("node-fetch");
+const { Client } = require("tmi.js");
 
 
-module.exports.run = (pdo) => {
-    fetch(authtwitch.data.url.follower + debug.data.chanels_id_skrab42, {
+module.exports.run = (pdo, client, channel) => {
+    fetch(authtwitch.data.url.follower + debug.data.chanels_id_alexcaussades, {
         method : "GET",
         headers: {
             "client-id": authtwitch.data.auth.client_id,
@@ -21,15 +22,16 @@ module.exports.run = (pdo) => {
             if(row){
                 if(row.namefollower === namefollower)
                 {
-                    console.log("ses ok pour " + row.namefollower)
+                    //console.log("ses ok pour " + row.namefollower)
                 }else{
                     pdo.run("INSERT INTO followers(namefollower, idchannel, idfollower, datefollowers) VALUES(?,?,?,?)", [namefollower, idchannel, idfollower, datefollowers])
-                    console.log("ses pas ok ")
-                    console.log(row.namefollower)
+                    console.log("New Followers : " + namefollower)
+                    client.say(channel, "New Follower "+ namefollower);
                 }
             }else if (row === undefined){
                 pdo.run("INSERT INTO followers(namefollower, idchannel, idfollower, datefollowers) VALUES(?,?,?,?)", [namefollower, idchannel, idfollower, datefollowers])
-                console.log("je suis pas la et merde tu m\'a touver ")
+                console.log("New Followers : " + namefollower)
+                client.say(channel, "New Follower "+ namefollower);
             }
 
             if(error){
