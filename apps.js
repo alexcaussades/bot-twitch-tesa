@@ -21,8 +21,8 @@ const client = new tmi.Client({
  },
  channels: [
   authtwitch.data.channels.channels,
-  authtwitch.data.channels.channels2,
-  authtwitch.data.channels.channels3,
+  // authtwitch.data.channels.channels2,
+  // authtwitch.data.channels.channels3,
  ],
 });
 
@@ -112,6 +112,8 @@ client.on("message", (channel, tags, message, self) => {
   const taf = require("./ivao/taf");
   taf.run(client, channel, tags, message, self, args);
  }
+
+ 
 });
 
 client.on(
@@ -123,9 +125,7 @@ client.on(
  }
 );
 
-client.on(
- "resub",
- function (channel, username, method, message, userstate, methods) {
+client.on("resub", function (channel, username, method, message, userstate, methods) {
   console.log(userstate);
   client.say(
    channel,
@@ -157,7 +157,10 @@ setInterval(() => {
  }
 }, 60000);
 
-
+setInterval(() => {
+  const tt = require("./twitch_modules/on_follwers")
+  tt.run(pdo, client)
+}, 40000);
 
 // client.on("whisper", function (channel, username, method, message, userstate) {
 //   console.log(username)

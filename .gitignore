@@ -1,3 +1,7 @@
 node_modules
 twitch.json
 bdd.db3
+bdd.db3-journal
+twitch_modules/debug.json
+package-lock.json
+package-lock.json

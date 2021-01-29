@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "discord-webhook-node": "^1.1.8",
     "fetch": "^1.1.0",
     "fs": "0.0.1-security",
     "ms": "^2.1.3",

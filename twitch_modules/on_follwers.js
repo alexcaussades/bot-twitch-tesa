@@ -4,7 +4,7 @@ const fetch = require("node-fetch");
 const { Client } = require("tmi.js");
 
 
-module.exports.run = (pdo, client, channel) => {
+module.exports.run = (pdo, client) => {
     fetch(authtwitch.data.url.follower + debug.data.chanels_id_alexcaussades, {
         method : "GET",
         headers: {
