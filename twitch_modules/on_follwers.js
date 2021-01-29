@@ -4,7 +4,7 @@ const fetch = require("node-fetch");
 
 
 module.exports.run = (pdo) => {
-    fetch(authtwitch.data.url.follower + debug.data.chanels_id_alexcaussades, {
+    fetch(authtwitch.data.url.follower + debug.data.chanels_id_skrab42, {
         method : "GET",
         headers: {
             "client-id": authtwitch.data.auth.client_id,
@@ -17,7 +17,24 @@ module.exports.run = (pdo) => {
         const idchannel = json.data[0].to_id
         const idfollower = json.data[0].from_id
         const datefollowers = json.data[0].followed_at
-        //pdo.run("")
-        }
+        pdo.get(`SELECT * FROM followers WHERE idchannel = ?`, [idchannel], function (error, row) {
+            if(row){
+                if(row.namefollower === namefollower)
+                {
+                    console.log("ses ok pour " + row.namefollower)
+                }else{
+                    pdo.run("INSERT INTO followers(namefollower, idchannel, idfollower, datefollowers) VALUES(?,?,?,?)", [namefollower, idchannel, idfollower, datefollowers])
+                    console.log("ses pas ok ")
+                    console.log(row.namefollower)
+                }
+            }else if (row === undefined){
+                pdo.run("INSERT INTO followers(namefollower, idchannel, idfollower, datefollowers) VALUES(?,?,?,?)", [namefollower, idchannel, idfollower, datefollowers])
+                console.log("je suis pas la et merde tu m\'a touver ")
+            }
+
+            if(error){
+                console.log(error)
+            }
+        }) }
     )
 }
