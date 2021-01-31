@@ -1,6 +1,9 @@
 const authtwitch = require("../twitch.json");
 //const debug = require("./debug.json");
 const { Webhook, MessageBuilder } = require("discord-webhook-node");
+const bug = require("../bug");
+const { client } = require("tmi.js");
+
 
 module.exports.onLive = (args, pdo) => {
   const hook = new Webhook(
@@ -21,25 +24,24 @@ module.exports.onLive = (args, pdo) => {
         if (element.is_live === true) {
           if (element.display_name === args) {
             const id = element.id;
-            //pdo.run( `INSERT INTO onlive(channels, status) VALUES(?,?)`,[args, element.is_live]);
-            const search = pdo.get(`SELECT * FROM onlive WHERE channels = ?`,[args], function (error, row) {
+              const search = pdo.get(`SELECT * FROM onlive WHERE channels = ?`,[args], function (error, row) {
                  if (row) {
                     if(row.status != element.is_live){
-                        pdo.get('UPDATE onlive SET status = ? WHERE channels = ?', [element.is_live, args])
-                        //TODO add webhook for discord
+                        pdo.run('UPDATE onlive SET status = ? WHERE channels = ?', [element.is_live, args])
+                        if(element.is_live === true)
+                          {
+                            //TODO add webhook for discord
+                            console.log("hello " + row.status + element.is_live)
+                          }
+                        
                     }
-                }
+                }if(error){
+                  console.log(error)
+                  bug.bug(channel, "pdo.get", error, pdo, client)
+              }
             
             })
                 }
-            }else{
-                const search = pdo.get(`SELECT * FROM onlive WHERE channels = ?`,[args], function (error, row) {
-                    if (row) {
-                        if(row.status != element.is_live){
-                            pdo.get('UPDATE onlive SET status = ? WHERE channels = ?', [element.is_live, args])
-                            }
-                        }
-                })
             }
         }
         })

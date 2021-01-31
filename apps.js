@@ -2,6 +2,7 @@ const tmi = require("tmi.js");
 const authtwitch = require("./twitch.json");
 const fs = require("fs");
 const sqlite3 = require("sqlite3").verbose();
+const bug = require("./bug")
 const pdo = new sqlite3.Database("bdd.db3", sqlite3.OPEN_READWRITE, (err) => {
  if (err) {
   console.error(err.message);
@@ -31,19 +32,33 @@ client.connect().catch(console.error);
 pdo.run("DROP TABLE viewersDays", function (error) {
  if (error) {
   console.log(error.message);
+  bug.bug(channel, "probleme BDD" , error, pdo, client)
  }
 });
+
+// pdo.run("DROP TABLE bug", function (error) {
+//   if (error) {
+//    console.log(error.message);
+//   }
+//  });
 
 /** Creat database  */
 pdo.run(
  "CREATE TABLE IF NOT EXISTS  message (id INTEGER PRIMARY KEY, username TEXT VARCHAR(255) NOT NULL, id_users TEXT VARCHAR(255) NOT NULL, message TEXT NOT NULL, subcriber TEXT VARCHAR(255) NOT NULL, channels TEXT VARCHAR(255) NOT NULL )"
 );
+
 pdo.run(
  "CREATE TABLE IF NOT EXISTS  viewersDays(id INTEGER PRIMARY KEY, username TEXT VARCHAR(255) NOT NULL, id_users TEXT VARCHAR(255) NOT NULL, channels TEXT VARCHAR(255) NOT NULL)"
 );
+
 pdo.run(
  "CREATE TABLE IF NOT EXISTS  onlive(id INTEGER PRIMARY KEY, channels TEXT VARCHAR(255) NOT NULL, status TEXT VARCHAR(255) NOT NULL)"
 );
+
+pdo.run(
+  "CREATE TABLE IF NOT EXISTS  bug(id INTEGER PRIMARY KEY, channels TEXT VARCHAR(255) NOT NULL, infoscommands TEXT VARCHAR(255) NOT NULL, message_erreur LONGTEXT NOT NULL)"
+ );
+
 client.on("message", (channel, tags, message, self) => {
  if (tags["username"] != "mytesabot") {
   pdo.run(
@@ -104,6 +119,10 @@ if (message === "!tesadiscord") {
 
 if (message === "!bug") {
  client.say(channel, 'Tu as découvert un bug viens ici pour me le décrire : https://github.com/alexcaussades/bot-twitch-tesa/issues')
+}
+
+if (message === "!l"){
+  bug.bug(channel, "test", "error", pdo, client)
 }
  
  if (message === "!functionSpecialAdminSystemeNeTochePasACeciMerci"){
@@ -178,22 +197,3 @@ setInterval(() => {
   tt.run(pdo, client)
 }, 40000);
 
-// client.on("whisper", function (channel, username, method, message, userstate) {
-//   console.log(username)
-//   console.log(message)
-//   console.log(userstate)
-// });
-
-// client.on("join",function(channel, username, self) {
-//   // console.log(channel)
-//   // console.log(username)
-//   // console.log(self)
-
-// })
-
-// client.on("part",function(channel, username, self) {
-//   // console.log(channel)
-//   // console.log(username)
-//   // console.log(self)
-
-// })

@@ -2,6 +2,7 @@ const authtwitch = require("../twitch.json");
 const debug = require("./debug.json");
 const fetch = require("node-fetch");
 const { Client } = require("tmi.js");
+const bug = require("../bug")
 
 
 module.exports.run = (pdo, client) => {
@@ -36,6 +37,7 @@ module.exports.run = (pdo, client) => {
 
             if(error){
                 console.log(error)
+                bug.bug(channel, "pdo.get", error, pdo, client)
             }
         }) }
     )
