@@ -32,7 +32,6 @@ client.connect().catch(console.error);
 pdo.run("DROP TABLE viewersDays", function (error) {
  if (error) {
   console.log(error.message);
-  bug.bug(channel, "probleme BDD" , error, pdo, client)
  }
 });
 
@@ -121,17 +120,8 @@ if (message === "!bug") {
  client.say(channel, 'Tu as découvert un bug viens ici pour me le décrire : https://github.com/alexcaussades/bot-twitch-tesa/issues')
 }
 
-if (message === "!l"){
-  bug.bug(channel, "test", "error", pdo, client)
-}
  
- if (message === "!functionSpecialAdminSystemeNeTochePasACeciMerci"){
-  pdo.run( `INSERT INTO onlive(channels, status) VALUES(?,?)`,[authtwitch.data.channels.channels, 0]);
-  pdo.run( `INSERT INTO onlive(channels, status) VALUES(?,?)`,[authtwitch.data.channels.channels2, 0]);
-  pdo.run( `INSERT INTO onlive(channels, status) VALUES(?,?)`,[authtwitch.data.channels.channels3, 0]);
- }
-
- if (self || !message.startsWith("!")) {
+if (self || !message.startsWith("!")) {
   return;
  }
 
