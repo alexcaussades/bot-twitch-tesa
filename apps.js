@@ -89,6 +89,22 @@ client.on("message", (channel, tags, message, self) => {
   const live = require("./twitch_modules/on_live");
   live.onLive(client, channel, tags, message, self);
  }
+
+ if (message === "!marv") {
+  client.say(channel, "https://github.com/skarab42/marv")
+}
+
+if (message === "!tesatwitch") {
+ client.say(channel, "https://github.com/alexcaussades/bot-twitch-tesa || tu aussi TESA pour Discord !tesadiscord")
+}
+
+if (message === "!tesadiscord") {
+ client.say(channel, "https://github.com/alexcaussades/TESA || tu aussi TESA pour twitch !tesatwitch")
+}
+
+if (message === "!bug") {
+ client.say(channel, 'Tu as découvert un bug viens ici pour me le décrire : https://github.com/alexcaussades/bot-twitch-tesa/issues')
+}
  
  if (message === "!functionSpecialAdminSystemeNeTochePasACeciMerci"){
   pdo.run( `INSERT INTO onlive(channels, status) VALUES(?,?)`,[authtwitch.data.channels.channels, 0]);
