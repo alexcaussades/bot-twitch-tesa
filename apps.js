@@ -120,6 +120,21 @@ if (message === "!bug") {
  client.say(channel, 'Tu as découvert un bug viens ici pour me le décrire : https://github.com/alexcaussades/bot-twitch-tesa/issues')
 }
 
+if (message === "!discord") {
+  client.say(channel, "https://discord.gg/CDntF5H")
+}
+
+if (message === "!discord-dev") {
+  client.say(channel, "https://discord.gg/S4HxU2YfaT")
+}
+
+if (message === "!git") {
+  client.say(channel, "https://github.com/alexcaussades")
+}
+
+if (message === "!alternos") {
+  client.say(channel, "https://myalternos.fr/")
+}
  
 if (self || !message.startsWith("!")) {
   return;
