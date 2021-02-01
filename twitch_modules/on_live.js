@@ -21,7 +21,6 @@ module.exports.onLive = (args, pdo) => {
       for (let i = 0; i < json.data.length; i++) {
         const element = json.data[i];
         if (element.is_live === true) {
-          console.log(element.is_live);
           if (element.display_name === args) {
             const id = element.id;
             const search = pdo.get(

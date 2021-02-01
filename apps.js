@@ -22,7 +22,7 @@ const client = new tmi.Client({
  },
  channels: [
   authtwitch.data.channels.channels,
-  // authtwitch.data.channels.channels2,
+  authtwitch.data.channels.channels2,
   // authtwitch.data.channels.channels3,
  ],
 });
@@ -59,13 +59,14 @@ pdo.run(
  );
 
 client.on("message", (channel, tags, message, self) => {
+const roomid  = tags["room-id"]
+  
  if (tags["username"] != "mytesabot") {
   pdo.run(
    `INSERT INTO message(username, id_users, message, subcriber, channels) VALUES(?,?,?,?,?)`,
    [tags.username, tags["user-id"], message, tags.subscriber, channel]
   );
   const userid = tags["user-id"];
-  //console.log(tags)
   const search = pdo.get(
    `SELECT * FROM viewersDays WHERE id_users = ?`,
    [userid],
@@ -93,15 +94,11 @@ client.on("message", (channel, tags, message, self) => {
   );
  }
 
- if (message === "!test") {
-  setTimeout(() => {
-   client.say(channel, `Hello @${tags.username}`);
-  }, 2000);
- }
 
- if (message === "!test2") {
-  const live = require("./twitch_modules/on_live");
-  live.onLive(client, channel, tags, message, self);
+
+ if (message === "&clip") {
+  const clip = require("./twitch_modules/clip");
+  clip.run(client, channel, roomid);
  }
 
  if (message === "!marv") {
