@@ -3,6 +3,7 @@ const authtwitch = require("./twitch.json");
 const fs = require("fs");
 const sqlite3 = require("sqlite3").verbose();
 const bug = require("./bug")
+const OBSWebSocket = require('obs-websocket-js');
 const pdo = new sqlite3.Database("bdd.db3", sqlite3.OPEN_READWRITE, (err) => {
  if (err) {
   console.error(err.message);
@@ -58,6 +59,12 @@ pdo.run(
   "CREATE TABLE IF NOT EXISTS  bug(id INTEGER PRIMARY KEY, channels TEXT VARCHAR(255) NOT NULL, infoscommands TEXT VARCHAR(255) NOT NULL, message_erreur LONGTEXT NOT NULL)"
  );
 
+ /**OBS Section */
+
+ obs.connect({address: 'localhost: 4444'}, (error) => {
+  console.log(error)
+});
+
 client.on("message", (channel, tags, message, self) => {
 const roomid  = tags["room-id"]
   
@@ -96,7 +103,7 @@ const roomid  = tags["room-id"]
 
 
 
- if (message === "&clip") {
+ if (message === "!clip") {
   const clip = require("./twitch_modules/clip");
   clip.run(client, channel, roomid);
  }
