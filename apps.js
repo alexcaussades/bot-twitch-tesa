@@ -3,6 +3,7 @@ const authtwitch = require("./twitch.json");
 const fs = require("fs");
 const sqlite3 = require("sqlite3").verbose();
 const bug = require("./bug")
+const prefix = "!"
 const pdo = new sqlite3.Database("bdd.db3", sqlite3.OPEN_READWRITE, (err) => {
  if (err) {
   console.error(err.message);
@@ -77,7 +78,7 @@ const roomid  = tags["room-id"]
       `INSERT INTO viewersDays(username, id_users, channels) VALUES(?,?,?)`,
       [tags.username, tags["user-id"], channel]
      );
-     console.log("tout vas bien " + tags.username, tags["user-id"], channel);
+     console.log("add " + tags.username, tags["user-id"], channel);
     }
    }
   );
@@ -95,50 +96,53 @@ const roomid  = tags["room-id"]
  }
 
 
-
- if (message === "&clip") {
+ if (message === prefix+"clip") {
   const clip = require("./twitch_modules/clip");
   clip.run(client, channel, roomid);
  }
 
- if (message === "!marv") {
+ if (message === prefix+"marv") {
   client.say(channel, "https://github.com/skarab42/marv")
 }
 
-if (message === "!tesatwitch") {
+if (message === prefix+"tesatwitch") {
  client.say(channel, "https://github.com/alexcaussades/bot-twitch-tesa || tu aussi TESA pour Discord !tesadiscord")
 }
 
-if (message === "!tesadiscord") {
+if (message === prefix+"tesadiscord") {
  client.say(channel, "https://github.com/alexcaussades/TESA || tu aussi TESA pour twitch !tesatwitch")
 }
 
-if (message === "!bug") {
+if (message === prefix+"bug") {
  client.say(channel, 'Tu as découvert un bug viens ici pour me le décrire : https://github.com/alexcaussades/bot-twitch-tesa/issues')
 }
 
-if (message === "!discord") {
+if (message === prefix+"discord") {
   client.say(channel, "https://discord.gg/CDntF5H")
 }
 
-if (message === "!discord-dev") {
+if (message === prefix+"discord-dev") {
   client.say(channel, "https://discord.gg/S4HxU2YfaT")
 }
 
-if (message === "!git") {
+if (message === prefix+"git") {
   client.say(channel, "https://github.com/alexcaussades")
 }
 
-if (message === "!alternos") {
+if (message === prefix+"alternos") {
   client.say(channel, "https://myalternos.fr/")
 }
  
-if (self || !message.startsWith("!")) {
+if (self || !message.startsWith(prefix)) {
   return;
  }
 
  const args = message.slice(1).split(" ");
  const command = args.shift().toLowerCase();
+
+ if (command === "addcmd"){
+   console.log("add commannde => args[] => " + args)
+ }
 
  if (command === "metar") {
   const metar = require("./ivao/metar");
