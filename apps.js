@@ -59,6 +59,10 @@ pdo.run(
   "CREATE TABLE IF NOT EXISTS  bug(id INTEGER PRIMARY KEY, channels TEXT VARCHAR(255) NOT NULL, infoscommands TEXT VARCHAR(255) NOT NULL, message_erreur LONGTEXT NOT NULL)"
  );
 
+pdo.run(
+ "CREATE TABLE IF NOT EXISTS  cmd(id INTEGER PRIMARY KEY, channels TEXT VARCHAR(255) NOT NULL, infoscommands TEXT VARCHAR(255) NOT NULL, desc LONGTEXT NOT NULL)"
+);
+
 client.on("message", (channel, tags, message, self) => {
 const roomid  = tags["room-id"]
   
@@ -142,6 +146,10 @@ if (self || !message.startsWith(prefix)) {
 
  if (command === "addcmd"){
    console.log("add commannde => args[] => " + args)
+ }
+
+ if (command === "delcmd"){
+  console.log("delect commannde => args[] => " + args[1])
  }
 
  if (command === "metar") {

@@ -1,7 +1,8 @@
 const { Webhook, MessageBuilder } = require("discord-webhook-node");
-const { client } = require("tmi.js");
+//const { client } = require("tmi.js");
 
-module.exports.bug = (channel, infoCommand, error, pdo, client) => {
+
+module.exports.bug = (channel, infoCommand, error, client) => {
 
     const phrase = "Tu as découvert un bug viens ici pour me le décrire : https://github.com/alexcaussades/bot-twitch-tesa/issues"
     const webhook = "https://discord.com/api/webhooks/805447045195497472/WwL6FKY0WBaMeWV8cheCuMyIFD3L5MkYNsnmvY2J37u_oTYhqsWi63AEzM83txHKPetg"
@@ -9,7 +10,7 @@ module.exports.bug = (channel, infoCommand, error, pdo, client) => {
     const erreur = error
     client.say(channel, phrase)
     const hook = new Webhook(webhook);
-     const embed = new MessageBuilder()
+    const embed = new MessageBuilder()
     .setTitle('Bug Alerte')
     .setAuthor(infoCommand)
     .setColor('#f44400')
