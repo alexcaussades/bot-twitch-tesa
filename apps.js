@@ -129,6 +129,10 @@ if (message === prefix+"discord-dev") {
   client.say(channel, "https://discord.gg/S4HxU2YfaT")
 }
 
+if (message === prefix+"discord-frc") {
+  client.say(channel, "https://discord.gg/3B33KcethE")
+}
+
 if (message === prefix+"git") {
   client.say(channel, "https://github.com/alexcaussades")
 }
@@ -161,7 +165,6 @@ if (self || !message.startsWith(prefix)) {
   const taf = require("./ivao/taf");
   taf.run(client, channel, tags, message, self, args);
  }
-
  
 });
 
@@ -189,6 +192,7 @@ client.on("resub", function (channel, username, method, message, userstate, meth
     userstate["msg-param-sub-plan-name"]
   );
  }
+ 
 );
 
 
@@ -206,8 +210,9 @@ setInterval(() => {
  }
 }, 60000);
 
-setInterval(() => {
+ setInterval(() => {
   const tt = require("./twitch_modules/on_follwers")
   tt.run(pdo, client)
 }, 40000);
+
 
